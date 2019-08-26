@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    container_name: wordPress_env_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+  webserver:
+    build: .
+    image: httpd:2.4.41-alpine
+    container_name: wordPress_env
+    tty: true
+    volumes:
+    - ./app:/app
+    ports: 
+    - "8080:80"
