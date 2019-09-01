@@ -2,18 +2,30 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    container_name: wordPress_env_mysql
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+    container_name: wordpress_env_mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=test
-      - MYSQL_USER=test
-      - MYSQL_PASSWORD=test
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
   webserver:
-    build: .
-    image: httpd:2.4.41-alpine
-    container_name: wordPress_env
+    depends_on:
+      - db
+    image: wordpress:latest
+    container_name: wordpress_env
     tty: true
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: admin
     volumes:
-    - ./app:/app
-    ports: 
-    - "8080:80"
+      - ./html:/var/www/html
+volumes:
+  dbdata:
