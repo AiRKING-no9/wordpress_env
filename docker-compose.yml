@@ -6,6 +6,8 @@ services:
     volumes:
       - dbdata:/var/lib/mysql
     container_name: wordpress_env_mysql
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=wordpress
