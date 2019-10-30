@@ -23,11 +23,13 @@ services:
       - "8000:80"
     restart: always
     environment:
+      WORDPRESS_SUBDIRECTORY: wp-site/production
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: admin
       WORDPRESS_DB_PASSWORD: admin
     volumes:
-      - ./html:/var/www/html
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+      - ./wp-site/production:/var/www/html/wp-site/production
 volumes:
   dbdata:
